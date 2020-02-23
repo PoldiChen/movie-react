@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Table, Divider, Popconfirm, message } from "antd";
-import ModalView from "../ModalView/index";
-import Columns from "../../../config/movie.config";
+// import ModalView from "../ModalView/index";
+import Columns from "../../../config/actor.config";
 import IconLike from "../../common/IconLike/index";
 import asyncFetch from "../../../utils/asyncFetch";
 import { API } from "../../../config/api.config";
@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 
 const { Search } = Input;
 
-class MovieList extends React.Component {
+class ActorList extends React.Component {
 
     constructor(props) {
         super(props);
@@ -24,7 +24,7 @@ class MovieList extends React.Component {
 
     componentDidMount() {
         console.log("componentDidMount");
-        this.getMovies("");
+        this.getMarkers("");
     }
 
     onView = (record) => {
@@ -47,32 +47,33 @@ class MovieList extends React.Component {
         this.setState({modalViewVisible: false});
     }
 
-    getMovies(name) {
-        console.log('MovieList@getMovies');
-        let url = API.get_movies + "?name=" + name;
+    getMarkers(name) {
+        console.log('ActorList@getActors');
+        let url = API.get_actors + "?name=" + name;
         asyncFetch('GET', url, {},
             (res) => {
                 if (res.code === 0) {
-                    let movies = [];
+                    let actors = [];
                     res.data.map(function(row) {
                         // let labels = [];
                         // row.labels.map(function(label) {
                         //     labels.push(label.name);
                         //     return 0;
                         // });
-                        let author = 'unknown';
+                        // let author = 'unknown';
                         // if (row.users.length > 0) {
                         //     author = row.users[0]['display'];
                         // }
-                        movies.push({
+                        actors.push({
                             key: row.id,
                             name: row.name,
-                            publish_date: row.publishDate
+                            birth_date: row.birthDate,
+                            nationality: row.nationality
                         });
                         return 0;
                     });
                     this.setState({
-                        dataSource: movies
+                        dataSource: actors
                     });
                 } else {
                     message.error(res.message);
@@ -94,9 +95,9 @@ class MovieList extends React.Component {
     }
 
     handleOnSearch = (e) => {
-        console.log("MovieList@handleOnSearch");
+        console.log("ActorList@handleOnSearch");
         console.log(e);
-        this.getMovies(e);
+        this.getMarkers(e);
     };
 
     render() {
@@ -135,6 +136,7 @@ class MovieList extends React.Component {
                     style={{marginBottom: 15}}
                     onSearch={this.handleOnSearch}
                 />
+
                 <Table
                     dataSource={this.state.dataSource}
                     columns={columns}
@@ -152,8 +154,8 @@ class MovieList extends React.Component {
 
 }
 
-MovieList.contextTypes = {
+ActorList.contextTypes = {
     token: PropTypes.string
 };
 
-export default MovieList;
+export default ActorList;

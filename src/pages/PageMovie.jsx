@@ -12,12 +12,7 @@ class PageMovie extends React.Component {
 
     render() {
         return(
-            <div>
-                <MovieSearch style={{
-                    margin: 20
-                }} />
-                <MovieList />
-            </div>
+            <MovieList />
 
         );
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import MarkerList from "../components/Marker/MarkerList/index";
+import ActorList from "../components/Actor/ActorList/index";
 
 class PageActor extends React.Component {
 
@@ -10,7 +10,7 @@ class PageActor extends React.Component {
 
     render() {
         return(
-            <MarkerList />
+            <ActorList />
         );
     }
 }
