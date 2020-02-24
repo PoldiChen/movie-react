@@ -5,6 +5,7 @@ const PageActor = AsyncCompnent(() => import("../pages/PageActor.jsx"));
 const PageMovie = AsyncCompnent(() => import("../pages/PageMovie.jsx"));
 const PageLabel = AsyncCompnent(() => import("../pages/PageLabel.jsx"));
 const PageSetting = AsyncCompnent(() => import("../pages/PageSetting.jsx"));
+const PageCard = AsyncCompnent(() => import("../pages/PageCard.jsx"));
 
 const ROUTES = [
     {
@@ -37,6 +38,12 @@ const ROUTES = [
         iconType: 'setting',
         text: 'Setting',
         component: PageSetting
+    }, {
+        key: 'Card',
+        link: '/card',
+        iconType: 'tag',
+        text: 'Card',
+        component: PageCard
     }
 ];
 

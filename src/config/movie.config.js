@@ -12,7 +12,12 @@ const Columns = [
         title: "Name",
         dataIndex: "name",
         key: "name",
-        width: "40%"
+        width: "20%"
+    }, {
+        title: "Actor",
+        dataIndex: "actors",
+        key: "actors",
+        width: "20%"
     }, {
         title: "Publish Date",
         dataIndex: "publish_date",

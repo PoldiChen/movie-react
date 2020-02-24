@@ -40,6 +40,7 @@ class MovieList extends React.Component {
     handleModalViewOnOk() {
         console.log("handleModalViewOnOk");
         this.setState({modalViewVisible: false});
+        this.getMovies("");
     }
 
     handleModalViewOnCancel() {
@@ -55,19 +56,16 @@ class MovieList extends React.Component {
                 if (res.code === 0) {
                     let movies = [];
                     res.data.map(function(row) {
-                        // let labels = [];
-                        // row.labels.map(function(label) {
-                        //     labels.push(label.name);
-                        //     return 0;
-                        // });
-                        let author = 'unknown';
-                        // if (row.users.length > 0) {
-                        //     author = row.users[0]['display'];
-                        // }
+                        let actorNames = [];
+                        row.actors.map(function(actor) {
+                            actorNames.push(actor.name);
+                            return 0;
+                        });
                         movies.push({
                             key: row.id,
                             name: row.name,
-                            publish_date: row.publishDate
+                            publish_date: row.publishDate,
+                            actors: actorNames.join('、')
                         });
                         return 0;
                     });
@@ -139,13 +137,13 @@ class MovieList extends React.Component {
                     dataSource={this.state.dataSource}
                     columns={columns}
                 />
-                {/*<ModalView*/}
-                    {/*visible={this.state.modalViewVisible}*/}
-                    {/*title={this.state.modalViewTitle}*/}
-                    {/*record={this.state.modalViewRecord}*/}
-                    {/*handleOnOk={() => this.handleModalViewOnOk()}*/}
-                    {/*handleOnCancel={() => this.handleModalViewOnCancel()}*/}
-                {/*/>*/}
+                <ModalView
+                    visible={this.state.modalViewVisible}
+                    title={this.state.modalViewTitle}
+                    record={this.state.modalViewRecord}
+                    handleOnOk={() => this.handleModalViewOnOk()}
+                    handleOnCancel={() => this.handleModalViewOnCancel()}
+                />
             </div>
         );
     }

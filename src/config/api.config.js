@@ -10,6 +10,7 @@ const API = {
     'get_actors': '/actor',
 
     'get_movies': '/movie',
+    'update_movie_actor': '/movie/${movieId}/actor',
 
     'get_login': '/login',
     'get_current_user': '/user/current_user',

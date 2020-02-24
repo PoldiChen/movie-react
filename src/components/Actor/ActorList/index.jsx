@@ -55,15 +55,6 @@ class ActorList extends React.Component {
                 if (res.code === 0) {
                     let actors = [];
                     res.data.map(function(row) {
-                        // let labels = [];
-                        // row.labels.map(function(label) {
-                        //     labels.push(label.name);
-                        //     return 0;
-                        // });
-                        // let author = 'unknown';
-                        // if (row.users.length > 0) {
-                        //     author = row.users[0]['display'];
-                        // }
                         actors.push({
                             key: row.id,
                             name: row.name,
