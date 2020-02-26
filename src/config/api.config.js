@@ -8,6 +8,7 @@ const API = {
     'create_labels': '/label',
 
     'get_actors': '/actor',
+    'update_actor': '/actor',
 
     'get_movies': '/movie',
     'update_movie_actor': '/movie/${movieId}/actor',

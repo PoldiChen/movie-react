@@ -7,20 +7,26 @@ const Columns = [
         title: "Key",
         dataIndex: "key",
         key: "key",
-        width: "20%"
+        width: "15%"
     }, {
         title: "Name",
         dataIndex: "name",
         key: "name",
-        width: "30%"
+        width: "20%"
     }, {
         title: "Birth Date",
         dataIndex: "birth_date",
-        key: "birth_date"
+        key: "birth_date",
+        width: "20%"
     }, {
         title: "Nationality",
         dataIndex: "nationality",
-        key: "nationality"
+        key: "nationality",
+        width: "15%"
+    }, {
+        title: "Search",
+        dataIndex: "search",
+        key: "search"
     }
 ];
 

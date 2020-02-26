@@ -52,18 +52,6 @@ class ModalView extends React.Component {
         this.setState({actorSelected: value});
     };
 
-    onBlur() {
-        console.log('blur');
-    }
-
-    onFocus() {
-        console.log('focus');
-    }
-
-    onSearch(val) {
-        console.log('search:', val);
-    }
-
     updateMovieActor() {
         console.log('ModalView@updateMovieActor');
         console.log(this.state.actorSelected);
@@ -141,9 +129,6 @@ class ModalView extends React.Component {
                             placeholder="Select a person"
                             optionFilterProp="children"
                             onChange={this.onChange}
-                            onFocus={this.onFocus}
-                            onBlur={this.onBlur}
-                            onSearch={this.onSearch}
                             filterOption={(input, option) =>
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }

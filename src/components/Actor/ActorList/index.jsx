@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, Table, Divider, Popconfirm, message } from "antd";
-// import ModalView from "../ModalView/index";
+import ActorModal from "../ActorModal/index";
 import Columns from "../../../config/actor.config";
 import IconLike from "../../common/IconLike/index";
 import asyncFetch from "../../../utils/asyncFetch";
@@ -59,7 +59,8 @@ class ActorList extends React.Component {
                             key: row.id,
                             name: row.name,
                             birth_date: row.birthDate,
-                            nationality: row.nationality
+                            nationality: row.nationality,
+                            search: row.search
                         });
                         return 0;
                     });
@@ -132,13 +133,15 @@ class ActorList extends React.Component {
                     dataSource={this.state.dataSource}
                     columns={columns}
                 />
-                {/*<ModalView*/}
-                    {/*visible={this.state.modalViewVisible}*/}
-                    {/*title={this.state.modalViewTitle}*/}
-                    {/*record={this.state.modalViewRecord}*/}
-                    {/*handleOnOk={() => this.handleModalViewOnOk()}*/}
-                    {/*handleOnCancel={() => this.handleModalViewOnCancel()}*/}
-                {/*/>*/}
+                <ActorModal
+                    visible={this.state.modalViewVisible}
+                    title={this.state.modalViewTitle}
+                    record={this.state.modalViewRecord}
+                    handleOnOk={() => this.handleModalViewOnOk()}
+                    handleOnCancel={() => this.handleModalViewOnCancel()}
+                >
+
+                </ActorModal>
             </div>
         );
     }
