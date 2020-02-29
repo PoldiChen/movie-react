@@ -17,7 +17,7 @@ class PageLogin extends React.Component {
                 <Card className='login-card' hoverable>
                     <h2 style={{color: 'rgba(0, 0, 0, .65)', marginLeft: 140, marginBottom: 25}}>
                         <Icon type="edit" style={{margin: '0 20px'}}/>
-                        Marker
+                        Movie
                     </h2>
                     <LoginForm />
                 </Card>

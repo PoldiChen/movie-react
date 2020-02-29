@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Table, Divider, Popconfirm, message } from "antd";
+import { Input, Table, Divider, Popconfirm, message, Button, Row, Col } from "antd";
 import ActorModal from "../ActorModal/index";
 import Columns from "../../../config/actor.config";
 import IconLike from "../../common/IconLike/index";
@@ -24,7 +24,7 @@ class ActorList extends React.Component {
 
     componentDidMount() {
         console.log("componentDidMount");
-        this.getMarkers("");
+        this.getActors("");
     }
 
     onView = (record) => {
@@ -32,7 +32,7 @@ class ActorList extends React.Component {
         console.log(record);
         this.setState({
             modalViewVisible: true,
-            modalViewTitle: record.title,
+            modalViewTitle: record.name,
             modalViewRecord: record
         });
     };
@@ -47,7 +47,7 @@ class ActorList extends React.Component {
         this.setState({modalViewVisible: false});
     }
 
-    getMarkers(name) {
+    getActors(name) {
         console.log('ActorList@getActors');
         let url = API.get_actors + "?name=" + name;
         asyncFetch('GET', url, {},
@@ -79,7 +79,7 @@ class ActorList extends React.Component {
             (res) => {
                 if (res.code === 0) {
                     message.success('delete success.');
-                    this.getMarkers();
+                    this.getActors();
                 } else {
                     message.error(res.message);
                 }
@@ -89,7 +89,22 @@ class ActorList extends React.Component {
     handleOnSearch = (e) => {
         console.log("ActorList@handleOnSearch");
         console.log(e);
-        this.getMarkers(e);
+        this.getActors(e);
+    };
+
+    handleOnAdd = () => {
+        console.log("ActorList@handleOnAdd");
+        let record = {
+            key: 0,
+            birth_date: 0,
+            nationality: '',
+            search: 0
+        };
+        this.setState({
+            modalViewVisible: true,
+            modalViewTitle: 'Create New Actor',
+            modalViewRecord: record
+        });
     };
 
     render() {
@@ -122,12 +137,19 @@ class ActorList extends React.Component {
         return (
             <div>
 
-                <Search
-                    placeholder="input search text"
-                    enterButton="Search"
-                    style={{marginBottom: 15}}
-                    onSearch={this.handleOnSearch}
-                />
+                <Row>
+                    <Col span="23">
+                        <Search
+                            placeholder="input search text"
+                            enterButton="Search"
+                            style={{marginBottom: 15}}
+                            onSearch={this.handleOnSearch}
+                        />
+                    </Col>
+                    <Col span="1">
+                        <Button onClick={this.handleOnAdd} type="primary" style={{marginLeft: "5px"}}>Add</Button>
+                    </Col>
+                </Row>
 
                 <Table
                     dataSource={this.state.dataSource}
