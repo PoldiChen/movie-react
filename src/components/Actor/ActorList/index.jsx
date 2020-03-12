@@ -49,7 +49,7 @@ class ActorList extends React.Component {
 
     getActors(name) {
         console.log('ActorList@getActors');
-        let url = API.get_actors + "?name=" + name;
+        let url = API.get_actors + "?pageSize=10&pageNum=1&name=" + name;
         asyncFetch('GET', url, {},
             (res) => {
                 if (res.code === 0) {
@@ -60,7 +60,11 @@ class ActorList extends React.Component {
                             name: row.name,
                             birth_date: row.birthDate,
                             nationality: row.nationality,
-                            search: row.search
+                            birth_place: row.birthPlace,
+                            search: row.search,
+                            height: row.height,
+                            hobby: row.hobby,
+                            age: row.age
                         });
                         return 0;
                     });
@@ -90,6 +94,11 @@ class ActorList extends React.Component {
         console.log("ActorList@handleOnSearch");
         console.log(e);
         this.getActors(e);
+    };
+
+    handleOnTableChange = (e) => {
+        console.log("ActorList@handleOnTableChange");
+        console.log(e);
     };
 
     handleOnAdd = () => {
@@ -154,6 +163,7 @@ class ActorList extends React.Component {
                 <Table
                     dataSource={this.state.dataSource}
                     columns={columns}
+                    onChange={this.handleOnTableChange}
                 />
                 <ActorModal
                     visible={this.state.modalViewVisible}

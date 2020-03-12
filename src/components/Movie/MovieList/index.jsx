@@ -7,6 +7,7 @@ import asyncFetch from "../../../utils/asyncFetch";
 import { API } from "../../../config/api.config";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import AsyncTable from "../../common/AsyncTable";
 
 const { Search } = Input;
 
@@ -18,9 +19,34 @@ class MovieList extends React.Component {
             dataSource: [],
             modalViewVisible: false,
             modalViewTitle: "",
-            modalViewRecord: {}
+            modalViewRecord: {},
+            pagination: {
+                pageSize: 10,
+                total: 0,
+                current: 1,
+                showSizeChanger: true,
+                showTotal: (total, range) =>  '当前显示%t条数据中的第%s-%e条'.replace('%s', range[0]).replace('%e', range[1]).replace('%t', total),
+                onShowSizeChange: this.handleShowSizeChange,
+                pageSizeOptions: ['5','10','20','50','100']
+            }
+        };
+        this.defaultPage = {
+            pageSize: 10,
+            total: 0,
+            current: 1,
+            showSizeChanger: true,
+            showTotal: (total, range) =>  '当前显示%t条数据中的第%s-%e条'.replace('%s', range[0]).replace('%e', range[1]).replace('%t', total),
+            onShowSizeChange: this.handleShowSizeChange,
+            pageSizeOptions: ['5','10','20','50','100']
         };
     }
+
+    handleShowSizeChange = (current, pageSize)=>{
+        let pagination = {...this.state.pagination};
+        pagination.cursor = current;
+        pagination.pageSize = pageSize;
+        this.setState({pagination: pagination})
+    };
 
     componentDidMount() {
         console.log("componentDidMount");
@@ -50,12 +76,20 @@ class MovieList extends React.Component {
 
     getMovies(name) {
         console.log('MovieList@getMovies');
-        let url = API.get_movies + "?name=" + name;
+        console.log(this.state.pagination);
+        let pageSize = this.state.pagination.pageSize;
+        let pageNum = this.state.pagination.current;
+        let url = API.get_movies + "?pageSize="+pageSize+"&pageNum="+pageNum+"&name=" + name;
         asyncFetch('GET', url, {},
             (res) => {
                 if (res.code === 0) {
+                    let total = res.data.total;
+                    console.log("total:" + total);
+                    let pagination = this.state.pagination;
+                    pagination.total = total;
+                    this.setState({pagination: pagination});
                     let movies = [];
-                    res.data.map(function(row) {
+                    res.data.list.map(function(row) {
                         let actorNames = [];
                         row.actors.map(function(actor) {
                             actorNames.push(actor.name);
@@ -65,6 +99,8 @@ class MovieList extends React.Component {
                             key: row.id,
                             name: row.name,
                             publish_date: row.publishDate,
+                            length: row.length,
+                            code: row.code,
                             actors: actorNames.join('、')
                         });
                         return 0;
@@ -97,9 +133,21 @@ class MovieList extends React.Component {
         this.getMovies(e);
     };
 
+    handleOnTableChange = (e) =>{
+        console.log("MovieList@handleOnTableChange");
+        console.log(e);
+        let pagination = this.state.pagination;
+        pagination.current = e.current;
+        this.setState({
+            pagination: pagination
+        });
+        this.getMovies("");
+    };
+
     render() {
 
         const columns = _.clone(Columns);
+
         columns.push({
             title: 'Operate',
             key: 'action',
@@ -136,14 +184,16 @@ class MovieList extends React.Component {
                 <Table
                     dataSource={this.state.dataSource}
                     columns={columns}
+                    pagination={this.state.pagination}
+                    onChange={this.handleOnTableChange}
                 />
-                <ModalView
-                    visible={this.state.modalViewVisible}
-                    title={this.state.modalViewTitle}
-                    record={this.state.modalViewRecord}
-                    handleOnOk={() => this.handleModalViewOnOk()}
-                    handleOnCancel={() => this.handleModalViewOnCancel()}
-                />
+                {/*<ModalView*/}
+                    {/*visible={this.state.modalViewVisible}*/}
+                    {/*title={this.state.modalViewTitle}*/}
+                    {/*record={this.state.modalViewRecord}*/}
+                    {/*handleOnOk={() => this.handleModalViewOnOk()}*/}
+                    {/*handleOnCancel={() => this.handleModalViewOnCancel()}*/}
+                {/*/>*/}
             </div>
         );
     }

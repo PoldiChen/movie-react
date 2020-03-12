@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Row, Col, message } from 'antd';
+import { Card, Row, Col, message, Pagination } from 'antd';
 import ActorList from "../components/Actor/ActorList/index";
 import asyncFetch from "../utils/asyncFetch";
 import { API } from "../config/api.config";
@@ -11,34 +11,43 @@ class PageCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            actors: []
+            movies: [],
+            pagination: {
+                total: 0,
+                current: 1,
+                pageSize: 40
+            }
         };
     }
 
     componentDidMount() {
-        this.getActors("");
+        this.getMovies("");
     }
 
-    getActors(name) {
-        console.log('ActorList@getActors');
-        let url = API.get_actors + "?name=" + name;
+    getMovies(name) {
+        // console.log('ActorList@getActors');
+        let pageSize = this.state.pagination.pageSize;
+        let pageNum = this.state.pagination.current;
+        let url = API.get_movies + "?pageSize=" + pageSize + "&pageNum=" + pageNum + "&name=" + name;
         asyncFetch('GET', url, {},
             (res) => {
                 if (res.code === 0) {
-                    let actors = [];
-                    res.data.map(function(row) {
-                        actors.push({
+                    let movies = [];
+                    res.data.list.map(function(row) {
+                        movies.push({
                             key: row.id,
                             name: row.name,
-                            birth_date: row.birthDate,
-                            nationality: row.nationality,
-                            search: row.search,
+                            code: row.code,
+                            publish_date: row.publishDate,
                             covers: row.covers
                         });
                         return 0;
                     });
+                    let pagination = this.state.pagination;
+                    pagination.total = res.data.total;
                     this.setState({
-                        actors: actors
+                        movies: movies,
+                        pagination: pagination
                     });
                 } else {
                     message.error(res.message);
@@ -46,19 +55,31 @@ class PageCard extends React.Component {
             }, {}, 'cors');
     }
 
+    handlePageChange = (e) => {
+        console.log("handlePageChange");
+        console.log(e);
+        let pagination = this.state.pagination;
+        pagination.current = e;
+        this.setState({
+            pagination: pagination
+        });
+        this.getMovies("");
+        document.documentElement.scrollTop = document.body.scrollTop = 0;
+    };
+
     render() {
 
         let lines = [];
         let groupSize = 8;
         let group = [];
-        this.state.actors.map((actor) => {
-            console.log(actor);
+        this.state.movies.map((movie) => {
+            // console.log(actor);
             if (group.length < groupSize) {
-                group.push(actor);
+                group.push(movie);
             } else {
                 lines.push(group);
                 group = [];
-                group.push(actor);
+                group.push(movie);
             }
         });
 
@@ -75,12 +96,12 @@ class PageCard extends React.Component {
                     lines.map((line) => {
 
                         return (
-                            <Row gutter={16} style={{marginBottom: "20px"}}>
+                            <Row gutter={60} style={{marginBottom: "20px"}}>
                                 {
-                                    line.map((actor) => {
-                                        let imgSrc = "http://114.67.87.197/study.jpg";
-                                        if (actor.covers.length > 0) {
-                                            imgSrc = "http://114.67.87.197" + actor['covers'][0]['path'] + actor['covers'][0]['fileName'];
+                                    line.map((movie) => {
+                                        let imgSrc = "http://localhost/ANZD-001_cover_0.jpg";
+                                        if (movie.covers.length > 0) {
+                                            imgSrc = "http://localhost" + movie['covers'][0]['path'] + movie['covers'][0]['fileName'];
                                         }
                                         // let
                                         return (
@@ -89,7 +110,7 @@ class PageCard extends React.Component {
                                                     hoverable
                                                     cover={<img alt="example" src={imgSrc} />}
                                                 >
-                                                    <Meta title={actor.name} description={actor.name}/>
+                                                    <Meta title={movie.code + " " + movie.publish_date} description={movie.name}/>
                                                 </Card>
                                             </Col>
                                         );
@@ -102,7 +123,7 @@ class PageCard extends React.Component {
                     })
                 }
 
-
+                <Pagination {...this.state.pagination} onChange={this.handlePageChange}/>
 
             </div>
 

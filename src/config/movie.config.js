@@ -7,17 +7,27 @@ const Columns = [
         title: "Key",
         dataIndex: "key",
         key: "key",
-        width: "20%"
-    }, {
+        width: "5%"
+    },{
+        title: "Code",
+        dataIndex: "code",
+        key: "code",
+        width: "8%"
+    } ,{
         title: "Name",
         dataIndex: "name",
         key: "name",
-        width: "20%"
+        width: "40%"
     }, {
         title: "Actor",
         dataIndex: "actors",
         key: "actors",
-        width: "20%"
+        width: "10%"
+    }, {
+        title: "Length",
+        dataIndex: "length",
+        key: "length",
+        width: "10%"
     }, {
         title: "Publish Date",
         dataIndex: "publish_date",
