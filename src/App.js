@@ -13,8 +13,8 @@ import asyncFetch from "./utils/asyncFetch";
 class App extends Component {
 
     constructor(props) {
-        console.log("App.js@constructor");
-        console.log(props);
+        // console.log("App.js@constructor");
+        // console.log(props);
         super(props);
         this.state = {
             login: false,
@@ -24,16 +24,17 @@ class App extends Component {
     }
 
     componentDidMount() {
-        console.log("App.js@componentDidMount");
-        console.log(this.state.token);
-        console.log(this.state.userInfo);
+        // console.log("App.js@componentDidMount");
+        // console.log(this.state.token);
+        // console.log(this.state.userInfo);
+        this.fakeLogin();
         let url = API.get_current_user;
         asyncFetch('GET', url, {},
             (res) => {
                 console.log(res);
                 if (res.code === 0) {
-                    message.success("current user.");
-                    message.success(JSON.stringify(res.data));
+                    // message.success("current user.");
+                    // message.success(JSON.stringify(res.data));
                     this.setState(
                         {
                             login: true,
@@ -56,10 +57,10 @@ class App extends Component {
     }
 
     setLoginInfo = (login, userInfo, token) => {
-        console.log('App.js@setLoginInfo');
-        console.log(login);
-        console.log(userInfo);
-        console.log(token);
+        // console.log('App.js@setLoginInfo');
+        // console.log(login);
+        // console.log(userInfo);
+        // console.log(token);
         localStorage.setItem("markerToken", token);
         this.setState(
             {
@@ -70,20 +71,62 @@ class App extends Component {
         );
     };
 
+    fakeLogin = (e) => {
+        // console.log("fakeLogin");
+        // e.preventDefault();
+
+        let url = API.get_login;
+        let params = {
+            userName: 'jack',
+            password: '123456'
+        };
+        asyncFetch('POST', url, params,
+            (res) => {
+                console.log(res.headers.get("authorization"));
+                let token = res.headers.get("authorization");
+                if (res.status == 200) {
+                    // message.success("login success.");
+                    this.fakeGetUserInfo(token);
+                } else {
+                    message.error(res.message);
+                }
+            }, {}, 'cors', {}, true);
+    };
+
+    fakeGetUserInfo = (token) => {
+        // console.log('LoginForm@getUserInfo');
+        let url = API.get_current_user;
+        asyncFetch('GET', url, {},
+            (res) => {
+                console.log(res);
+                if (res.code === 0) {
+                    // message.success("current user.");
+                    setTimeout(() => {
+                        this.setLoginInfo(true, res.data, token);
+                        // this.props.history.push({
+                        //     pathname: '/home'
+                        // })
+                    }, 1000)
+                } else {
+                    message.error(res.message);
+                }
+            }, {}, 'cors', {}, false, token);
+    };
+
     render() {
-        console.log("App.js@render");
-        console.log(this.state.login);
+        // console.log("App.js@render");
+        // console.log(this.state.login);
         return (
             <LocaleProvider locale={enUs}>
             {
-                this.state.login?
+                // this.state.login?
                 <Layouts
                     setLoginInfo={this.setLoginInfo}
                 />
-                :
-                <PageLogin
-                    setLoginInfo={this.setLoginInfo}
-                />
+                // :
+                // <PageLogin
+                //     setLoginInfo={this.setLoginInfo}
+                // />
             }
             </LocaleProvider>
 

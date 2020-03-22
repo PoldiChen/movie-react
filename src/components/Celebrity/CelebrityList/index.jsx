@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Table, Divider, Popconfirm, message, Button, Row, Col } from "antd";
-import ActorModal from "../ActorModal/index";
-import Columns from "../../../config/actor.config";
+import CelebrityModal from "../CelebrityModal/index";
+import Columns from "../../../config/celebrity.config";
 import IconLike from "../../common/IconLike/index";
 import asyncFetch from "../../../utils/asyncFetch";
 import { API } from "../../../config/api.config";
@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 
 const { Search } = Input;
 
-class ActorList extends React.Component {
+class CelebrityList extends React.Component {
 
     constructor(props) {
         super(props);
@@ -18,13 +18,13 @@ class ActorList extends React.Component {
             dataSource: [],
             modalViewVisible: false,
             modalViewTitle: "",
-            modalViewRecord: {}
+            modalViewRecord: {key: 0}
         };
     }
 
     componentDidMount() {
-        console.log("componentDidMount");
-        this.getActors("");
+        console.log("CelebrityList@componentDidMount");
+        this.getCelebrities("");
     }
 
     onView = (record) => {
@@ -47,15 +47,15 @@ class ActorList extends React.Component {
         this.setState({modalViewVisible: false});
     }
 
-    getActors(name) {
-        console.log('ActorList@getActors');
-        let url = API.get_actors + "?pageSize=10&pageNum=1&name=" + name;
+    getCelebrities(name) {
+        console.log('CelebrityList@getCelebrities');
+        let url = API.get_celebrities + "?pageSize=10&pageNum=1&name=" + name;
         asyncFetch('GET', url, {},
             (res) => {
                 if (res.code === 0) {
-                    let actors = [];
-                    res.data.map(function(row) {
-                        actors.push({
+                    let celebrities = [];
+                    res.data.list.map(function(row) {
+                        celebrities.push({
                             key: row.id,
                             name: row.name,
                             birth_date: row.birthDate,
@@ -69,7 +69,7 @@ class ActorList extends React.Component {
                         return 0;
                     });
                     this.setState({
-                        dataSource: actors
+                        dataSource: celebrities
                     });
                 } else {
                     message.error(res.message);
@@ -83,7 +83,7 @@ class ActorList extends React.Component {
             (res) => {
                 if (res.code === 0) {
                     message.success('delete success.');
-                    this.getActors();
+                    this.getCelebrities();
                 } else {
                     message.error(res.message);
                 }
@@ -91,18 +91,18 @@ class ActorList extends React.Component {
     }
 
     handleOnSearch = (e) => {
-        console.log("ActorList@handleOnSearch");
+        console.log("CelebrityList@handleOnSearch");
         console.log(e);
-        this.getActors(e);
+        this.getCelebrities(e);
     };
 
     handleOnTableChange = (e) => {
-        console.log("ActorList@handleOnTableChange");
+        console.log("CelebrityList@handleOnTableChange");
         console.log(e);
     };
 
     handleOnAdd = () => {
-        console.log("ActorList@handleOnAdd");
+        console.log("CelebrityList@handleOnAdd");
         let record = {
             key: 0,
             birth_date: 0,
@@ -111,7 +111,7 @@ class ActorList extends React.Component {
         };
         this.setState({
             modalViewVisible: true,
-            modalViewTitle: 'Create New Actor',
+            modalViewTitle: 'Create New Celebrity',
             modalViewRecord: record
         });
     };
@@ -161,27 +161,26 @@ class ActorList extends React.Component {
                 </Row>
 
                 <Table
-                    dataSource={this.state.dataSource}
-                    columns={columns}
-                    onChange={this.handleOnTableChange}
+                    dataSource = {this.state.dataSource}
+                    columns = {columns}
+                    onChange = {this.handleOnTableChange}
                 />
-                <ActorModal
-                    visible={this.state.modalViewVisible}
-                    title={this.state.modalViewTitle}
-                    record={this.state.modalViewRecord}
-                    handleOnOk={() => this.handleModalViewOnOk()}
-                    handleOnCancel={() => this.handleModalViewOnCancel()}
+                <CelebrityModal
+                    visible = {this.state.modalViewVisible}
+                    title = {this.state.modalViewTitle}
+                    record = {this.state.modalViewRecord}
+                    handleOnOk = {() => this.handleModalViewOnOk()}
+                    handleOnCancel = {() => this.handleModalViewOnCancel()}
                 >
-
-                </ActorModal>
+                </CelebrityModal>
             </div>
         );
     }
 
 }
 
-ActorList.contextTypes = {
+CelebrityList.contextTypes = {
     token: PropTypes.string
 };
 
-export default ActorList;
+export default CelebrityList;

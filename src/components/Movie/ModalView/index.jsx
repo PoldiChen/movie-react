@@ -13,14 +13,14 @@ class ModalView extends React.Component {
             visible: props.visible,
             title: props.title,
             record: props.record,
-            actorOptions: [],
-            actorSelected: 0
+            celebrityOptions: [],
+            celebritySelected: 0
         };
     }
 
     componentDidMount() {
         console.log("ModalView@componentDidMount");
-        this.getActors();
+        this.getCelebrities();
     }
 
     componentWillReceiveProps(props) {
@@ -31,13 +31,13 @@ class ModalView extends React.Component {
             title: props.title,
             record: props.record
         });
-        this.getActors();
+        this.getCelebrities();
     }
 
     handleOk = (e) => {
         console.log("ModalView@handleOk");
-        console.log(this.state.actorSelected);
-        this.updateMovieActor();
+        console.log(this.state.celebritySelected);
+        this.updateMovieCelebrity();
         this.setState({visible: false});
         this.props.handleOnOk();
     };
@@ -49,14 +49,14 @@ class ModalView extends React.Component {
 
     onChange = (value) => {
         console.log(`selected ${value}`);
-        this.setState({actorSelected: value});
+        this.setState({celebritySelected: value});
     };
 
-    updateMovieActor() {
-        console.log('ModalView@updateMovieActor');
-        console.log(this.state.actorSelected);
-        let url = "/movie/" + this.state.record.key + "/actor";
-        asyncFetch('PUT', url, {actor_id: this.state.actorSelected},
+    updateMovieCelebrity() {
+        console.log('ModalView@updateMovieCelebrity');
+        console.log(this.state.celebritySelected);
+        let url = "/movie/" + this.state.record.key + "/celebrity";
+        asyncFetch('PUT', url, {celebrity_id: this.state.celebritySelected},
             (res) => {
                 if (res.code === 0) {
                     message.success("update success");
@@ -66,22 +66,22 @@ class ModalView extends React.Component {
             }, {}, 'cors');
     }
 
-    getActors() {
-        console.log('ModalView@getActors');
-        let url = API.get_actors;
+    getCelebrities() {
+        console.log('ModalView@getCelebrities');
+        let url = API.get_celebrities;
         asyncFetch('GET', url, {},
             (res) => {
                 if (res.code === 0) {
-                    let actorOptions = [];
+                    let celebrityOptions = [];
                     res.data.map(function(row) {
-                        actorOptions.push({
+                        celebrityOptions.push({
                             key: row.id,
                             display: row.name
                         });
                         return 0;
                     });
                     this.setState({
-                        actorOptions: actorOptions
+                        celebrityOptions: celebrityOptions
                     });
                 } else {
                     message.error(res.message);
@@ -94,7 +94,7 @@ class ModalView extends React.Component {
         const { getFieldDecorator } = this.props.form;
 
         console.log("ModalView@render");
-        console.log(this.state.actorOptions);
+        console.log(this.state.celebrityOptions);
 
         return (
             <Modal
@@ -115,13 +115,13 @@ class ModalView extends React.Component {
                     <Form.Item label="Name">
                         {this.state.record.name}
                     </Form.Item>
-                    <Form.Item label="Actors">
-                        {this.state.record.actors}
+                    <Form.Item label="Celebrities">
+                        {this.state.record.celebrities}
                     </Form.Item>
                     <Form.Item label="Publish Date">
                         {this.state.record.publish_date}
                     </Form.Item>
-                    <Form.Item label="Update Actors">
+                    <Form.Item label="Update Celebrities">
                         <Select
                             mode="multiple"
                             showSearch
@@ -133,7 +133,7 @@ class ModalView extends React.Component {
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
                         >
-                            {this.state.actorOptions.map((item) => {
+                            {this.state.celebrityOptions.map((item) => {
                                 return (<Option value={item.key}>{item.display}</Option>);
 
                             })}

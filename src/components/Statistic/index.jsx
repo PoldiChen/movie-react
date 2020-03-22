@@ -37,10 +37,10 @@ class SystemStatistic extends React.Component {
                     <Statistic title="Active Users" value={this.state.statistic["user"]} valueStyle={{color: "#1890ff"}} />
                 </Col>
                 <Col span={8} style={{textAlign: "center"}}>
-                    <Statistic title="Markers" value={this.state.statistic["marker"]} valueStyle={{color: "#1890ff"}} />
+                    <Statistic title="Movies" value={this.state.statistic["movie"]} valueStyle={{color: "#1890ff"}} />
                 </Col>
                 <Col span={8} style={{textAlign: "center"}}>
-                    <Statistic title="Labels" value={this.state.statistic["label"]} valueStyle={{color: "#1890ff"}} />
+                    <Statistic title="Celebrities" value={this.state.statistic["celebrity"]} valueStyle={{color: "#1890ff"}} />
                 </Col>
             </Row>
         );

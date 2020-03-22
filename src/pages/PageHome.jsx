@@ -13,9 +13,6 @@ class PageHome extends React.Component {
                 <br />
                 <br />
                 <br />
-                Marker, mark down everything.<br />
-                Build with React, Ant Design, Spring Boot. ->
-                <a href="https://github.com/PoldiChen/marker-react">GitHub</a>
             </div>
         );
     }

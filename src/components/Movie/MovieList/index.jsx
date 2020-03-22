@@ -90,9 +90,9 @@ class MovieList extends React.Component {
                     this.setState({pagination: pagination});
                     let movies = [];
                     res.data.list.map(function(row) {
-                        let actorNames = [];
+                        let celebrityNames = [];
                         row.actors.map(function(actor) {
-                            actorNames.push(actor.name);
+                            celebrityNames.push(actor.name);
                             return 0;
                         });
                         movies.push({
@@ -101,7 +101,7 @@ class MovieList extends React.Component {
                             publish_date: row.publishDate,
                             length: row.length,
                             code: row.code,
-                            actors: actorNames.join('、')
+                            celebrities: celebrityNames.join('、')
                         });
                         return 0;
                     });

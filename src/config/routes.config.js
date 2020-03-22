@@ -1,50 +1,71 @@
 import AsyncCompnent from "../components/common/HighOrderComponents/AsyncComponent";
 
 const PageHome = AsyncCompnent(() => import("../pages/PageHome.jsx"));
-const PageActor = AsyncCompnent(() => import("../pages/PageActor.jsx"));
+const PageCelebrity = AsyncCompnent(() => import("../pages/PageCelebrity.jsx"));
 const PageMovie = AsyncCompnent(() => import("../pages/PageMovie.jsx"));
 const PageLabel = AsyncCompnent(() => import("../pages/PageLabel.jsx"));
 const PageSetting = AsyncCompnent(() => import("../pages/PageSetting.jsx"));
 const PageCard = AsyncCompnent(() => import("../pages/PageCard.jsx"));
+const PageCardCelebrity = AsyncCompnent(() => import("../pages/PageCardCelebrity.jsx"));
+const PageSystemLog = AsyncCompnent(() => import("../pages/PageSystemLog.jsx"));
 
 const ROUTES = [
     {
         key: 'Home',
         link: '/home',
         iconType: 'home',
-        text: 'Home',
+        text: '主页',
         component: PageHome
-    }, {
-        key: 'Actor',
-        link: '/actor',
-        iconType: 'profile',
-        text: 'Actor',
-        component: PageActor
-    }, {
-        key: 'Movie',
-        link: '/movie',
-        iconType: 'edit',
-        text: 'Movie',
-        component: PageMovie
-    }, {
-        key: 'Label',
-        link: '/label',
+    },
+    // {
+    //     key: 'Celebrity',
+    //     link: '/celebrity',
+    //     iconType: 'profile',
+    //     text: 'Celebrity',
+    //     component: PageCelebrity
+    // },
+    // {
+    //     key: 'Movie',
+    //     link: '/movie',
+    //     iconType: 'edit',
+    //     text: 'Movie',
+    //     component: PageMovie
+    // },
+    // {
+    //     key: 'Label',
+    //     link: '/label',
+    //     iconType: 'tag',
+    //     text: 'Label',
+    //     component: PageLabel
+    // },
+
+    {
+        key: 'Card',
+        link: '/card_movie',
         iconType: 'tag',
-        text: 'Label',
-        component: PageLabel
+        text: '电影',
+        component: PageCard
     }, {
+        key: 'CardCe',
+        link: '/card_celebrity',
+        iconType: 'profile',
+        text: '艺人',
+        component: PageCardCelebrity
+    },
+    {
         key: 'Setting',
         link: '/setting',
         iconType: 'setting',
-        text: 'Setting',
+        text: '设置',
         component: PageSetting
-    }, {
-        key: 'Card',
-        link: '/card',
-        iconType: 'tag',
-        text: 'Card',
-        component: PageCard
-    }
+    },
+    {
+        key: 'SystemLog',
+        link: '/system_log',
+        iconType: 'setting',
+        text: '日志',
+        component: PageSystemLog
+    },
 ];
 
 export { ROUTES };

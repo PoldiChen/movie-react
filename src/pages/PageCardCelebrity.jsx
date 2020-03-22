@@ -5,12 +5,12 @@ import { API } from "../config/api.config";
 
 const { Meta } = Card;
 
-class PageCard extends React.Component {
+class PageCardCelebrity extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            movies: [],
+            celebrities: [],
             pagination: {
                 total: 0,
                 current: 1,
@@ -20,24 +20,23 @@ class PageCard extends React.Component {
     }
 
     componentDidMount() {
-        this.getMovies("");
+        this.getCelebrities("");
     }
 
-    getMovies(name) {
+    getCelebrities(name) {
         // console.log('ActorList@getActors');
         let pageSize = this.state.pagination.pageSize;
         let pageNum = this.state.pagination.current;
-        let url = API.get_movies + "?pageSize=" + pageSize + "&pageNum=" + pageNum + "&name=" + name;
+        let url = API.get_celebrities + "?pageSize=" + pageSize + "&pageNum=" + pageNum + "&name=" + name;
         asyncFetch('GET', url, {},
             (res) => {
                 if (res.code === 0) {
-                    let movies = [];
+                    let celebrities = [];
                     res.data.list.map(function(row) {
-                        movies.push({
+                        celebrities.push({
                             key: row.id,
                             name: row.name,
-                            code: row.code,
-                            publish_date: row.publishDate,
+                            english_name: row.englishName,
                             covers: row.covers
                         });
                         return 0;
@@ -45,7 +44,7 @@ class PageCard extends React.Component {
                     let pagination = this.state.pagination;
                     pagination.total = res.data.total;
                     this.setState({
-                        movies: movies,
+                        celebrities: celebrities,
                         pagination: pagination
                     });
                 } else {
@@ -62,7 +61,7 @@ class PageCard extends React.Component {
         this.setState({
             pagination: pagination
         });
-        this.getMovies("");
+        this.getCelebrities("");
         document.documentElement.scrollTop = document.body.scrollTop = 0;
     };
 
@@ -71,18 +70,18 @@ class PageCard extends React.Component {
         let lines = [];
         let groupSize = 8;
         let group = [];
-        this.state.movies.map((movie) => {
+        this.state.celebrities.map((celebrity) => {
             // console.log(actor);
             if (group.length < groupSize) {
-                group.push(movie);
+                group.push(celebrity);
             } else {
                 lines.push(group);
                 group = [];
-                group.push(movie);
+                group.push(celebrity);
             }
         });
 
-        // console.log("lines size:" + lines.length);
+        console.log("lines size:" + lines.length);
         // console.log()
 
 
@@ -97,10 +96,10 @@ class PageCard extends React.Component {
                         return (
                             <Row gutter={60} style={{marginBottom: "20px"}}>
                                 {
-                                    line.map((movie) => {
+                                    line.map((celebrity) => {
                                         let imgSrc = "http://localhost/ANZD-001_cover_0.jpg";
-                                        if (movie.covers.length > 0) {
-                                            imgSrc = "http://localhost" + movie['covers'][0]['path'] + movie['covers'][0]['fileName'];
+                                        if (celebrity.covers.length > 0) {
+                                            imgSrc = "http://localhost" + celebrity['covers'][0]['path'] + celebrity['covers'][0]['fileName'];
                                         }
                                         // let
                                         return (
@@ -109,7 +108,7 @@ class PageCard extends React.Component {
                                                     hoverable
                                                     cover={<img alt="example" src={imgSrc} />}
                                                 >
-                                                    <Meta title={movie.title} description={movie.name}/>
+                                                    <Meta title={celebrity.name + " " + celebrity.english_name} />
                                                 </Card>
                                             </Col>
                                         );
@@ -132,4 +131,4 @@ class PageCard extends React.Component {
     }
 }
 
-export default PageCard;
+export default PageCardCelebrity;
