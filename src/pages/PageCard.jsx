@@ -37,6 +37,7 @@ class PageCard extends React.Component {
                             key: row.id,
                             name: row.name,
                             code: row.code,
+                            title: row.title,
                             publish_date: row.publishDate,
                             covers: row.covers
                         });
@@ -107,7 +108,7 @@ class PageCard extends React.Component {
                                             <Col span={3}>
                                                 <Card
                                                     hoverable
-                                                    cover={<img alt="example" src={imgSrc} />}
+                                                    cover={<img alt="example" src={imgSrc} style={{width: "100%", height: "100%"}} />}
                                                 >
                                                     <Meta title={movie.title} description={movie.name}/>
                                                 </Card>

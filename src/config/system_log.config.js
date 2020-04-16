@@ -1,6 +1,4 @@
 import React from "react";
-import { Tag } from 'antd';
-import getColor from "../utils/common";
 
 const Columns = [
     {
@@ -12,7 +10,7 @@ const Columns = [
         title: "Log ID",
         dataIndex: "log_id",
         key: "log_id",
-        width: "10%"
+        width: "20%"
     } ,{
         title: "Level",
         dataIndex: "level",
@@ -26,12 +24,12 @@ const Columns = [
     }, {
         title: "Detail",
         dataIndex: "detail",
-        key: "detail",
-        width: "40%"
+        key: "detail"
     }, {
         title: "Create At",
         dataIndex: "create_at",
-        key: "create_at"
+        key: "create_at",
+        width: "15%"
     }
 ];
 

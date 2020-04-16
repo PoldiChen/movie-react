@@ -19,6 +19,8 @@ const API = {
     'get_statistic': '/statistic',
 
     'get_system_log': '/system_log',
+
+    'get_proxy_address': '/proxy_address'
 };
 
 export {API};
