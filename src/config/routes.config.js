@@ -9,6 +9,7 @@ const PageCard = AsyncCompnent(() => import("../pages/PageCard.jsx"));
 const PageCardCelebrity = AsyncCompnent(() => import("../pages/PageCardCelebrity.jsx"));
 const PageSystemLog = AsyncCompnent(() => import("../pages/PageSystemLog.jsx"));
 const PageProxyAddress = AsyncCompnent(() => import("../pages/PageProxyAddress.jsx"));
+const PageJobDeclare = AsyncCompnent(() => import("../pages/PageJobDeclare.jsx"));
 
 const ROUTES = [
     {
@@ -58,6 +59,12 @@ const ROUTES = [
         iconType: 'setting',
         text: '代理',
         component: PageProxyAddress
+    }, {
+        key: 'JobDeclare',
+        link: '/job_declare',
+        iconType: 'setting',
+        text: '任务',
+        component: PageJobDeclare
     }, {
         key: 'SystemLog',
         link: '/system_log',

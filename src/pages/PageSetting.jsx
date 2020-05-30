@@ -1,10 +1,11 @@
 import React from "react";
+import SystemSettingList from "../components/SystemSetting/SystemSettingList/index";
 
 class PageSetting extends React.Component {
 
     render() {
         return(
-            <div>setting page.</div>
+            <SystemSettingList />
         );
     }
 

@@ -20,6 +20,12 @@ const API = {
 
     'get_system_log': '/system_log',
 
+    'get_system_setting': '/system_setting',
+    'update_system_setting': '/system_setting',
+    'create_system_setting': '/system_setting',
+
+    'get_job_declare': '/job',
+
     'get_proxy_address': '/proxy_address'
 };
 
