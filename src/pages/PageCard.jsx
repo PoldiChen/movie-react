@@ -100,8 +100,13 @@ class PageCard extends React.Component {
                                 {
                                     line.map((movie) => {
                                         let imgSrc = "http://localhost/ANZD-001_cover_0.jpg";
-                                        if (movie.covers.length > 0) {
-                                            imgSrc = "http://localhost" + movie['covers'][0]['path'] + movie['covers'][0]['fileName'];
+                                        if (movie.covers && movie.covers.length > 0) {
+                                            const cover = movie.covers[0];
+                                            // 优先用本地 8080 端口静态文件服务（下载到本地的图片）
+                                            // 降级用 url 字段（原始图源 URL，如豆瓣）
+                                            imgSrc = (cover.path && cover.fileName)
+                                                ? ("http://localhost:8080/pictures/" + cover.fileName)
+                                                : (cover.url || imgSrc);
                                         }
                                         // let
                                         return (
